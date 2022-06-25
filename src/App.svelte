@@ -20,7 +20,7 @@
   <input type="text" bind:value={firstName} />
   <input type="text" bind:value={lastName} />
   <input type="time" bind:value = {time}/>
-  {#each people as person}
+  {#each people as person (person.id)}
   <div>
 	<h2 style="color:{person.colour}">{person.name} favourite color: {person.colour}</h2>
   </div>
