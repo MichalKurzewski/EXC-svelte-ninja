@@ -1,30 +1,44 @@
 <script>
+  import Modal from "./Modal.svelte";
   let firstName = "Wiola";
   let lastName = "Foks";
   let colour = "blue";
   let time = 0;
   let people = [
-	{name: "Michal", colour:"black", id:1},
-	{name: "Wiola", colour:"red", id:2},
-	{name: "Danny", colour:"blue", id:3},
-	{name: "Adam", colour:"green", id:4},
-  ]
-  
+    { name: "Michal", colour: "black", id: 1 },
+    { name: "Wiola", colour: "red", id: 2 },
+    { name: "Danny", colour: "blue", id: 3 },
+    { name: "Adam", colour: "green", id: 4 },
+  ];
+  let showModal = false;
+  const handeShowModal = () => {
+    showModal = showModal ? false : true;
+    console.log(showModal);
+  };
+  const handleClick = (id) => {
+    people = people.filter((person) => person.id !== id);
+  };
   $: fullName = `${firstName} ${lastName}`;
-  $: console.log(colour);
 </script>
 
+<Modal message="originate from App" {showModal} />
+
 <main>
+  <button on:click={()=>handeShowModal()}>Show modal</button>
   <p style="color:{colour}">chosen color: {colour} by {fullName} at {time}</p>
   <input type="text" bind:value={colour} />
   <input type="text" bind:value={firstName} />
   <input type="text" bind:value={lastName} />
-  <input type="time" bind:value = {time}/>
+  <input type="time" bind:value={time} />
   {#each people as person (person.id)}
-  <div>
-	<h2 style="color:{person.colour}">{person.name} favourite color: {person.colour}</h2>
-  </div>
-  {/each }
+    <div>
+      <h2 style="color:{person.colour}">color</h2>
+      <p>{person.name} favourite color: {person.colour}</p>
+      <button on:click={() => handleClick(person.id)}>press</button>
+    </div>
+  {:else}
+    <p>noting to display</p>
+  {/each}
 </main>
 
 <style>
