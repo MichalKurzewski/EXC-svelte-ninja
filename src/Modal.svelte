@@ -1,13 +1,13 @@
 <script>
-  export let message = "default";
   export let showModal = false;
-  let isPromo = true;
+  let isPromo = false;
 </script>
 
 {#if showModal}
-  <div class="backdrop" class:promo={isPromo}>
+  <div class="backdrop" class:promo={isPromo} on:click|self>
     <div class="modal">
-      <p>{message}</p>
+      <slot name="title"><!-- optional fallback --></slot>
+      <slot><!-- optional fallback --></slot>
     </div>
   </div>
 {/if}

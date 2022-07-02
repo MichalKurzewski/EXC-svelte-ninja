@@ -1,5 +1,6 @@
 <script>
   import Modal from "./Modal.svelte";
+  import AddPersonForm from "./AddPersonForm.svelte"
   let firstName = "Wiola";
   let lastName = "Foks";
   let colour = "blue";
@@ -12,19 +13,27 @@
   ];
   let showModal = false;
   const handeShowModal = () => {
-    showModal = showModal ? false : true;
-    console.log(showModal);
+    showModal = !showModal;
   };
   const handleClick = (id) => {
     people = people.filter((person) => person.id !== id);
   };
+  const handleAddPerson = (e)=>{
+    const person = e.detail;
+    console.log(person);
+    people = [person, ...people];
+    showModal=false;
+  }
   $: fullName = `${firstName} ${lastName}`;
 </script>
 
-<Modal message="originate from App" {showModal} />
+<Modal {showModal} on:click={handeShowModal}>
+  <AddPersonForm on:addPerson={handleAddPerson}/>
+  <h3 slot="title">add person</h3>
+</Modal>
 
 <main>
-  <button on:click={()=>handeShowModal()}>Show modal</button>
+  <button on:click={() => handeShowModal()}>Show modal</button>
   <p style="color:{colour}">chosen color: {colour} by {fullName} at {time}</p>
   <input type="text" bind:value={colour} />
   <input type="text" bind:value={firstName} />
